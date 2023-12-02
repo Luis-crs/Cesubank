@@ -3,17 +3,28 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import Logo from "../components/Logo";
 import { useState } from 'react';
 
-const Menu = ({navigation, route}) => {
+const Menu = ({navigation}) => {
 
     const[saldo, setSaldo] = useState(0);
+    const [extrato, setExtrato] = useState("");
+    const [extratoCreditos, setExtratoCreditos] = useState([]);
+    const [extratoDebitos, setExtratoDebitos] = useState([]);
 
     function LancarCredito() {
         // Passa o saldo atualizado automaticamente
-        navigation.navigate('LancarCredito', { saldo, setSaldo });
+        navigation.navigate('LancarCredito', { saldo, setSaldo, extrato, setExtrato, extratoCreditos, setExtratoCreditos });
     }
     function LancarDebito() {
         // Passa o saldo atualizado automaticamente
-        navigation.navigate('LancarDebito', { saldo, setSaldo });
+        navigation.navigate('LancarDebito', { saldo, setSaldo, extrato, setExtrato, extratoDebitos, setExtratoDebitos });
+    }
+    function Extrato() {
+        // Passa o saldo atualizado automaticamente
+        navigation.navigate('Extrato', { extrato, setExtrato });
+    }
+    function ExtratoEspecial() {
+        // Passa o saldo atualizado automaticamente
+        navigation.navigate('ExtratoEspecial', { extratoCreditos, setExtratoCreditos, extratoDebitos, setExtratoDebitos });
     }
 
     return (
@@ -27,9 +38,9 @@ const Menu = ({navigation, route}) => {
                 <Text> </Text>
                 <Button onPress={LancarDebito} title="Lançar débito"/>
                 <Text> </Text>
-                <Button title="Extrato "/>
+                <Button onPress={Extrato} title="Extrato "/>
                 <Text> </Text>
-                <Button title="Extrato especial"/>
+                <Button onPress={ExtratoEspecial} title="Extrato especial"/>
                 <Text> </Text>
                 <Button title="Cheque especial"/>
                 <Text> </Text>

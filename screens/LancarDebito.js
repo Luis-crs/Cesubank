@@ -1,17 +1,21 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import Banco from '../model/banco.js';
 
-export default function LancarDebito({route, navigation}){
-    const {saldo, setSaldo} = route.params;
+export default function LancarDebito({route}){
+    const {saldo, setSaldo, extrato, setExtrato, extratoDebitos, setExtratoDebitos} = route.params;
     const [debito, setDebito] = useState(0);
     const [feedback, setFeedback] = useState("");
+    const [data, setData] = useState("");
 
-    
+    let banco = new Banco(saldo, null, data, extrato, debito, null, extratoDebitos);
 
     function LancarDebito(params) {
-        let novoSaldo = saldo - Number(debito);
-        setSaldo(novoSaldo);
-        setFeedback("Débito lançado | Saldo: " + novoSaldo);
+        let debitar = banco.LancarDebito();
+        setFeedback(debitar);
+        setSaldo(banco.saldo);
+        setExtrato(banco.extrato);
+        setExtratoDebitos(banco.extratoDebitos);
     }
 
     return(
@@ -19,7 +23,9 @@ export default function LancarDebito({route, navigation}){
             <Text style={styles.titulo}>Lançar débito</Text>
             <Text style={styles.texto}>Insira o valor do débito</Text>
             <TextInput onChangeText = {setDebito} style={styles.entrada}/>
-            <Text>{feedback}</Text>
+            <Text style={styles.texto}>Insira a data</Text>
+            <TextInput onChangeText = {setData} style={styles.entrada}/>
+            <Text style={styles.texto}>{feedback}</Text>
             <Button onPress={LancarDebito} title='Lançar'/>
         </View>
     )
@@ -34,6 +40,8 @@ const styles = StyleSheet.create({
     texto: {
         fontSize:20,
         fontWeight: "bold",
+        marginTop: 10,
+        marginBottom: 10,
     },
     entrada: {
         padding: 4,
