@@ -1,14 +1,19 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
 import Banco from '../model/banco.js';
+import Logo from '../components/Logo.js';
 
 export default function LancarDebito({route}){
-    const {saldo, setSaldo, extrato, setExtrato, extratoDebitos, setExtratoDebitos} = route.params;
+    const {saldo, setSaldo, extrato, setExtrato, extratoDebitos, setExtratoDebitos, cheque, setCheque} = route.params;
     const [debito, setDebito] = useState(0);
     const [feedback, setFeedback] = useState("");
     const [data, setData] = useState("");
 
-    let banco = new Banco(saldo, null, data, extrato, debito, null, extratoDebitos);
+    let banco = new Banco(saldo, null, data, extrato, debito, null, extratoDebitos, cheque);
+
+    function cliquesLogo(){
+        banco.cliquesLogo();
+    }
 
     function LancarDebito(params) {
         let debitar = banco.LancarDebito();
@@ -16,10 +21,14 @@ export default function LancarDebito({route}){
         setSaldo(banco.saldo);
         setExtrato(banco.extrato);
         setExtratoDebitos(banco.extratoDebitos);
+        setCheque(banco.cheque)
     }
 
     return(
         <View style={styles.container}>
+            <TouchableOpacity onPress={cliquesLogo}>
+                <Logo />
+            </TouchableOpacity>
             <Text style={styles.titulo}>Lançar débito</Text>
             <Text style={styles.texto}>Insira o valor do débito</Text>
             <TextInput onChangeText = {setDebito} style={styles.entrada}/>
@@ -35,7 +44,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
     },
     texto: {
         fontSize:20,
@@ -52,6 +60,5 @@ const styles = StyleSheet.create({
     titulo: {
         fontSize: 25,
         fontWeight: "bold",
-        marginBottom: 50,
     },
 });

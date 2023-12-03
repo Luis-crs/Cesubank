@@ -1,11 +1,8 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import Banco from '../model/banco.js';
 import Logo from '../components/Logo.js';
 
-export default function Extrato({route}){
-    const {extrato} = route.params;
-
-    let banco = new Banco(null, null, null, extrato);
+export default function ChequeEspecial({route}){
+    const {cheque} = route.params;
 
     function cliquesLogo(){
         banco.cliquesLogo();
@@ -16,8 +13,8 @@ export default function Extrato({route}){
             <TouchableOpacity onPress={cliquesLogo}>
                 <Logo />
             </TouchableOpacity>
-            <Text style={styles.titulo}>Extrato</Text>
-            <Text style={styles.texto}>{banco.verificarExtrato()}</Text>
+            <Text style={styles.titulo}>Valor do cheque especial</Text>
+            <Text style={styles.texto}>R${cheque}</Text>
         </View>
     )
 }
@@ -36,6 +33,5 @@ const styles = StyleSheet.create({
     titulo: {
         fontSize: 25,
         fontWeight: "bold",
-        marginBottom: 50,
     },
 });

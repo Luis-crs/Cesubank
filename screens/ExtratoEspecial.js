@@ -1,19 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Banco from '../model/banco.js';
+import Logo from '../components/Logo.js';
 
 export default function ExtratoEspecial({route}){
-    const {extratoCreditos, extratoDebitos} = route.params;
+    const {extratoCreditos, extratoDebitos, data} = route.params;
     
-    let banco = new Banco(null, null, null, null, null, extratoCreditos, extratoDebitos);
-    let creditos = banco.ordenarCreditos();
-    let debitos = banco.ordenarDebitos();
+    let banco = new Banco(null, null, data, null, null, extratoCreditos, extratoDebitos);
+
+    function cliquesLogo(){
+        banco.cliquesLogo();
+    }
 
     return(
         <View style={styles.container}>
+            <TouchableOpacity onPress={cliquesLogo}>
+                <Logo />
+            </TouchableOpacity>
             <Text style={styles.titulo}>Extrato especial</Text>
-            <Text style={styles.texto}>{creditos}</Text>
-            <Text>--------------------------------</Text>
-            <Text style={styles.texto}>{debitos}</Text>
+            <Text style={styles.texto}>{banco.verificarExtratoEspecial()}</Text>
         </View>
     )
 }
@@ -22,7 +26,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
     },
     texto: {
         fontSize: 20,
@@ -33,6 +36,5 @@ const styles = StyleSheet.create({
     titulo: {
         fontSize: 25,
         fontWeight: "bold",
-        marginBottom: 50,
     },
 });
